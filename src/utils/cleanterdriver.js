@@ -20,7 +20,7 @@ export async function printImage(base64Image) {
         body: JSON.stringify({
             "cut": true,
             "content": [{
-                "type": "image", "base64": resized, "align": "center", "dither": false
+                "type": "image", "base64": resized.split(",")[1], "align": "center"
             }]
         }),
     });
