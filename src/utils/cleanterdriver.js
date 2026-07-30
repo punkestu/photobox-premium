@@ -41,7 +41,9 @@ export async function printImage(base64Image) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             "cut": true,
-            "content": [{ "type": "image", "base64": resized, "align": "center" }]
+            "content": [{
+                "type": "image", "base64": resized, "align": "center", "dither": false
+            }]
         }),
     });
     if (!res.ok) {
