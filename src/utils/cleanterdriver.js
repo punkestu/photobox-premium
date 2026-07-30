@@ -12,16 +12,43 @@ export async function isBridgeAvailable() {
     }
 }
 
+async function resizeImageToPaper(url, paperWidth = 576) {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = url;
+
+    await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+    });
+
+    const ratio = img.height / img.width;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = paperWidth;
+    canvas.height = Math.round(paperWidth * ratio);
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    return canvas.toDataURL("image/png").replace(/^data:image\/\w+;base64,/, "");
+}
+
 export async function printImage(base64Image) {
+    const resized = await resizeImageToPaper(base64Image);
     const res = await fetch(`${BRIDGE_URL}/print`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ "type": "image", "base64": base64Image, "align": "center" }),
+        body: JSON.stringify({
+            "cut": true,
+            "content": [{ "type": "image", "base64": resized, "align": "center" }]
+        }),
     });
     if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         throw new Error(`Print failed: ${res.status} ${err.detail ?? ""}`);
     }
+    return res.json();
 }
 
 export async function PrintImage(base64Image) {
@@ -38,5 +65,17 @@ export async function PrintImage(base64Image) {
         return e;
     } finally {
         isPrinting = false;
+    }
+}
+
+export async function printReceipt(content) {
+    const res = await fetch(`${BRIDGE_URL}/print`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cut: true, content }),
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(`Print failed: ${res.status} ${err.detail ?? ""}`);
     }
 }

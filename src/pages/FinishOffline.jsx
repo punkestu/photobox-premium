@@ -1,11 +1,14 @@
 import { useContext, useEffect } from "react";
 import { PrintImage } from "../utils/cleanterdriver";
-import { frameProvider } from "../hooks/useFrameProvider";
+import { framedProvider } from "../hooks/useFramedProvider";
+
+import * as LocalBuffer from "../utils/localbuffer";
 
 export default function FinishOfflinePage() {
-  const [frame] = useContext(frameProvider);
+  const [framed] = useContext(framedProvider);
   useEffect(() => {
-    PrintImage(frame);
-  }, [frame]);
-  return <h1>Finish Offline</h1>;
+    LocalBuffer.deleteObjects();
+    PrintImage(framed);
+  }, [framed]);
+  return <img src={framed} />;
 }

@@ -46,7 +46,10 @@ export default function FramePage() {
     LocalBuffer.getObject("frame_selected").then((object) =>
       object ? setFrametype(object.blob) : null,
     );
-  }, [setPhotos, setFrametype]);
+    LocalBuffer.getObject("framed_base64").then((object) =>
+      object ? setFramed(object) : null,
+    );
+  }, [setPhotos, setFrametype, setFramed]);
 
   useEffect(() => {
     if (displayRef && frametype) {
