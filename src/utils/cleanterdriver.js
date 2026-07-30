@@ -12,30 +12,8 @@ export async function isBridgeAvailable() {
     }
 }
 
-async function resizeImageToPaper(url, paperWidth = 576) {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = url;
-
-    await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-    });
-
-    const ratio = img.height / img.width;
-
-    const canvas = document.createElement("canvas");
-    canvas.width = paperWidth;
-    canvas.height = Math.round(paperWidth * ratio);
-
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-    return canvas.toDataURL("image/png").replace(/^data:image\/\w+;base64,/, "");
-}
-
 export async function printImage(base64Image) {
-    const resized = await resizeImageToPaper(base64Image);
+    const resized = await thermalOptimize(base64Image);
     const res = await fetch(`${BRIDGE_URL}/print`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -80,4 +58,170 @@ export async function printReceipt(content) {
         const err = await res.json().catch(() => ({}));
         throw new Error(`Print failed: ${res.status} ${err.detail ?? ""}`);
     }
+}
+
+export async function thermalOptimize(base64, printerWidth = 576) {
+    // Load image
+    const img = new Image();
+    img.src = base64;
+
+    await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+    });
+
+    // Resize
+    const scale = printerWidth / img.width;
+    const width = printerWidth;
+    const height = Math.round(img.height * scale);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext("2d", {
+        willReadFrequently: true,
+    });
+
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+
+    ctx.drawImage(img, 0, 0, width, height);
+
+    let image = ctx.getImageData(0, 0, width, height);
+    let d = image.data;
+
+    // -------------------------
+    // Auto Contrast
+    // -------------------------
+
+    let min = 255;
+    let max = 0;
+
+    for (let i = 0; i < d.length; i += 4) {
+        const gray =
+            d[i] * 0.299 +
+            d[i + 1] * 0.587 +
+            d[i + 2] * 0.114;
+
+        min = Math.min(min, gray);
+        max = Math.max(max, gray);
+    }
+
+    const range = Math.max(1, max - min);
+
+    for (let i = 0; i < d.length; i += 4) {
+        let r = ((d[i] - min) * 255) / range;
+        let g = ((d[i + 1] - min) * 255) / range;
+        let b = ((d[i + 2] - min) * 255) / range;
+
+        d[i] = Math.min(255, Math.max(0, r));
+        d[i + 1] = Math.min(255, Math.max(0, g));
+        d[i + 2] = Math.min(255, Math.max(0, b));
+    }
+
+    // -------------------------
+    // Sharpen
+    // -------------------------
+
+    const copy = new Uint8ClampedArray(d);
+
+    const kernel = [
+        0, -1, 0,
+        -1, 5, -1,
+        0, -1, 0,
+    ];
+
+    for (let y = 1; y < height - 1; y++) {
+        for (let x = 1; x < width - 1; x++) {
+
+            let r = 0;
+            let g = 0;
+            let b = 0;
+
+            let k = 0;
+
+            for (let ky = -1; ky <= 1; ky++) {
+                for (let kx = -1; kx <= 1; kx++) {
+
+                    const idx =
+                        ((y + ky) * width + (x + kx)) * 4;
+
+                    r += copy[idx] * kernel[k];
+                    g += copy[idx + 1] * kernel[k];
+                    b += copy[idx + 2] * kernel[k];
+
+                    k++;
+                }
+            }
+
+            const idx = (y * width + x) * 4;
+
+            d[idx] = Math.min(255, Math.max(0, r));
+            d[idx + 1] = Math.min(255, Math.max(0, g));
+            d[idx + 2] = Math.min(255, Math.max(0, b));
+        }
+    }
+
+    // -------------------------
+    // Grayscale
+    // -------------------------
+
+    const gray = new Float32Array(width * height);
+
+    for (let i = 0, p = 0; i < d.length; i += 4, p++) {
+        gray[p] =
+            d[i] * 0.299 +
+            d[i + 1] * 0.587 +
+            d[i + 2] * 0.114;
+    }
+
+    // -------------------------
+    // Floyd-Steinberg Dither
+    // -------------------------
+
+    for (let y = 0; y < height; y++) {
+
+        for (let x = 0; x < width; x++) {
+
+            const idx = y * width + x;
+
+            const oldPixel = gray[idx];
+            const newPixel = oldPixel < 128 ? 0 : 255;
+
+            const err = oldPixel - newPixel;
+
+            gray[idx] = newPixel;
+
+            if (x + 1 < width)
+                gray[idx + 1] += err * 7 / 16;
+
+            if (x > 0 && y + 1 < height)
+                gray[idx + width - 1] += err * 3 / 16;
+
+            if (y + 1 < height)
+                gray[idx + width] += err * 5 / 16;
+
+            if (x + 1 < width && y + 1 < height)
+                gray[idx + width + 1] += err * 1 / 16;
+        }
+    }
+
+    // -------------------------
+    // Write back
+    // -------------------------
+
+    for (let i = 0, p = 0; i < d.length; i += 4, p++) {
+
+        const c = gray[p];
+
+        d[i] = c;
+        d[i + 1] = c;
+        d[i + 2] = c;
+        d[i + 3] = 255;
+    }
+
+    ctx.putImageData(image, 0, 0);
+
+    return canvas.toDataURL("image/png");
 }
