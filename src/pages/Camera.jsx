@@ -4,7 +4,8 @@ import { useNavigate } from "react-router";
 import { photosProvider } from "../hooks/usePhotosProvider";
 import { frametypeProvider } from "../hooks/useFrametypeProvider";
 
-import * as Frames from "../assets/frames";
+// import * as Frames from "../assets/frames";
+import * as Frames from "../assets/framessingle";
 import * as Camera from "../utils/camera";
 import * as LocalBuffer from "../utils/localbuffer";
 
@@ -138,7 +139,10 @@ export default function CameraPage() {
             Pilih Tipe Strip
           </h1>
           {Frames.all().map((frame) => (
-            <label className="aspect-square" key={`frame_type_${frame.key}`}>
+            <label
+              className="aspect-square bg-slate-200"
+              key={`frame_type_${frame.key}`}
+            >
               <input
                 type="radio"
                 name="frame-type"

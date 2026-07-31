@@ -6,11 +6,10 @@ import { frametypeProvider } from "../hooks/useFrametypeProvider";
 
 import * as FrameRenderer from "../utils/framerenderer";
 import * as LocalBuffer from "../utils/localbuffer";
-import * as FrameManager from "../assets/frames";
 import { offlinemodeProvider } from "../hooks/useOfflinemodeProvider";
 
 export default function FramePage() {
-  const [frame, setFrame] = useState(null);
+  const [frame] = useState(null);
   const [photos, setPhotos] = useContext(photosProvider);
   const [frametype, setFrametype] = useContext(frametypeProvider);
   const [offlinemode] = useContext(offlinemodeProvider);
@@ -52,34 +51,37 @@ export default function FramePage() {
 
   useEffect(() => {
     if (displayRef && frametype) {
-      FrameRenderer.render(displayRef, photos, frame, frametype).then((res) => {
+      FrameRenderer.render(
+        displayRef,
+        photos,
+        frametype.display,
+        frametype,
+      ).then((res) => {
         LocalBuffer.saveObject("framed", "framed_base64", res);
         setFramed(res);
       });
     }
   }, [displayRef, photos, frame, frametype, setFramed]);
   return (
-    <main className="p-4 h-full">
-      <section className="grid grid-cols-4 h-full">
-        <aside className="flex justify-center p-2 overflow-auto h-full">
-          <img ref={displayRef} className="h-fit" />
-        </aside>
-        <aside className="col-span-3 bg-white h-full overflow-y-auto rounded-md">
-          <header className="w-full flex justify-between gap-2 p-2 bg-white sticky top-0 left-0">
-            <button
-              onClick={retake}
-              className="cursor-pointer bg-red-500 text-white px-2 py-1 rounded-md"
-            >
-              ⬅️ RETAKE
-            </button>
-            <button
-              onClick={finish}
-              className="cursor-pointer bg-red-500 text-white px-2 py-1 rounded-md"
-            >
-              CONTINUE ➡️
-            </button>
-          </header>
-          <div className="overflow-x-auto h-[90%] bg-slate-200 py-2 px-4">
+    <main className="p-4 h-full flex flex-col gap-4">
+      <header className="w-full flex justify-between gap-2 p-2 bg-white sticky top-0 left-0 rounded-md">
+        <button
+          onClick={retake}
+          className="cursor-pointer bg-red-500 text-white px-2 py-1 rounded-md"
+        >
+          ⬅️ RETAKE
+        </button>
+        <button
+          onClick={finish}
+          className="cursor-pointer bg-red-500 text-white px-2 py-1 rounded-md"
+        >
+          CONTINUE ➡️
+        </button>
+      </header>
+      <div className="flex justify-center p-4 overflow-auto h-full bg-slate-200 rounded-md">
+        <img ref={displayRef} className="h-fit" />
+      </div>
+      {/* <div className="overflow-x-auto h-[90%] bg-slate-200 py-2 px-4">
             <div className="w-fit flex gap-8 h-full">
               <button
                 onClick={() => setFrame(null)}
@@ -104,9 +106,7 @@ export default function FramePage() {
                     </button>
                   ))}
             </div>
-          </div>
-        </aside>
-      </section>
+          </div> */}
     </main>
   );
 }
