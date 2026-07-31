@@ -103,7 +103,7 @@ export default function CameraPage() {
           ref={screenRef}
           autoPlay
           playsInline
-          className="max-w-full max-h-full portrait:w-full landscape:h-full bg-white/75 rounded-sm aspect-4/3 object-cover object-center flex justify-center items-center"
+          className="scale-x-[-1] max-w-full max-h-full portrait:w-full landscape:h-full bg-white/75 rounded-sm aspect-4/3 object-cover object-center flex justify-center items-center"
           style={{
             aspectRatio:
               frametype && frametype.ratio

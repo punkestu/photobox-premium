@@ -13,7 +13,8 @@ export async function init(screenRef) {
                     },
                     height: {
                         ideal: 1080
-                    }
+                    },
+                    facingMode: "user"
                 },
                 audio: false
             });
@@ -61,6 +62,13 @@ export function capture(screenRef) {
     const context = canvas.getContext("2d");
     canvas.width = screen.videoWidth;
     canvas.height = screen.videoHeight;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    context.save();
+    context.translate(canvas.width, 0);
+    context.scale(-1, 1);
+
     context.drawImage(
         screen,
         0,
@@ -68,6 +76,9 @@ export function capture(screenRef) {
         canvas.width,
         canvas.height
     );
+
+    context.restore();
+
     const image = canvas.toDataURL("image/jpeg", 0.9);
     return image;
 }
