@@ -60,7 +60,7 @@ export default function FinishOfflinePage() {
   }, [photos, framed]);
   useEffect(() => {
     thermalOptimize(framed).then((res) => {
-      PrintImage(res);
+      PrintImage(res).catch((e) => alert(e.message));
       setOptimizedframed(res);
     });
     LocalBuffer.saveObject("framed", "framed_base64", framed);

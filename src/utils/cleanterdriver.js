@@ -32,6 +32,7 @@ export async function printImage(base64Image) {
 }
 
 export async function PrintImage(base64Image) {
+    base64Image = rotateBase64(base64Image, 180);
     if (isPrinting) throw new Error(`Printer still working...`);
     isPrinting = true;
     const ready = await isBridgeAvailable();
