@@ -87,21 +87,22 @@ export default function FramePage() {
               >
                 CLEAR
               </button>
-              {FrameManager.all()
-                .find((frame) => frame.key == frametype.key)
-                .frames.map((frame, i) => (
-                  <button
-                    onClick={() => setFrame(frame)}
-                    key={`frame_${i}`}
-                    className="h-full w-50 bg-blue-400/50 cursor-pointer flex justify-center items-center p-2"
-                  >
-                    <img
-                      src={frame}
-                      alt=""
-                      className="h-full w-full object-contain"
-                    />
-                  </button>
-                ))}
+              {frametype &&
+                FrameManager.all()
+                  .find((frame) => frame.key == frametype.key)
+                  .frames.map((frame, i) => (
+                    <button
+                      onClick={() => setFrame(frame)}
+                      key={`frame_${i}`}
+                      className="h-full w-50 bg-blue-400/50 cursor-pointer flex justify-center items-center p-2"
+                    >
+                      <img
+                        src={frame}
+                        alt=""
+                        className="h-full w-full object-contain"
+                      />
+                    </button>
+                  ))}
             </div>
           </div>
         </aside>
