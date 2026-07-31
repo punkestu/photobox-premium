@@ -3,7 +3,6 @@ import { PrintImage, thermalOptimize } from "../utils/cleanterdriver";
 import { framedProvider } from "../hooks/useFramedProvider";
 
 import * as LocalBuffer from "../utils/localbuffer";
-import { useNavigate } from "react-router";
 import LogoBorderTypo from "../assets/Logo_border_typo.webp";
 import { QRCodeCanvas } from "qrcode.react";
 import { photosProvider } from "../hooks/usePhotosProvider";
@@ -24,14 +23,13 @@ export default function FinishOfflinePage() {
   const setFrametype = useContext(frametypeProvider)[1];
   const [optimizedframed, setOptimizedframed] = useState(null);
   const [printing, setPrinting] = useState(false);
-  const navigate = useNavigate();
 
-  const reset = () => {
-    LocalBuffer.deleteObjects();
+  const reset = async () => {
+    await LocalBuffer.deleteObjects();
     setPhotos([]);
     setFramed(null);
     setFrametype(null);
-    navigate("/");
+    window.location.href = "/";
   };
   const reprint = () => {
     thermalOptimize(framed).then((res) => {
