@@ -1,5 +1,6 @@
 import Calendar from "./framessingle/calendar.png";
 import Receipt from "./framessingle/receipt.png";
+import Og from "./framessingle/og.png";
 
 export function all() {
     return [
@@ -29,6 +30,19 @@ export function all() {
             width: 685,
             height: 1299,
             ratio: [564, 408],
+        }, {
+            key: "og",
+            framecount: 3,
+            display: Og,
+            direction: "vertical",
+            offsetleft: 0,
+            offsettop: 253,
+            offsetright: 0,
+            offsetbottom: 65,
+            gap: 36,
+            width: 685,
+            height: 1950,
+            ratio: [685, 508],
         }
     ];
 }

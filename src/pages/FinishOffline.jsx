@@ -36,16 +36,9 @@ export default function FinishOfflinePage() {
       PrintImage(res);
     });
   };
-  const download = () => {
-    const now = new Date().getSeconds();
-    photos.map((photo, i) => {
-      downloadBase64(photo, `${now}_photo_${i + 1}`);
-    });
-    downloadBase64(framed, `${now}_framed`);
-  };
 
   useEffect(() => {
-    if (framed && photos.length > 0) return;
+    if (framed || photos.length > 0) return;
     LocalBuffer.getObjects().then((objects) =>
       setPhotos(
         objects
@@ -57,6 +50,14 @@ export default function FinishOfflinePage() {
       object ? setFramed(object.blob) : null,
     );
   }, [setFramed, framed, photos, setPhotos]);
+  useEffect(() => {
+    if (!framed || !photos) return;
+    const now = new Date().getTime();
+    photos.map((photo, i) => {
+      downloadBase64(photo, `${now}_photo_${i + 1}`);
+    });
+    downloadBase64(framed, `${now}_framed`);
+  }, [photos, framed]);
   useEffect(() => {
     thermalOptimize(framed).then((res) => {
       PrintImage(res);
@@ -86,12 +87,6 @@ export default function FinishOfflinePage() {
             className="cursor-pointer bg-red-500 text-white px-6 py-2 w-75 rounded-md"
           >
             Reprint
-          </button>
-          <button
-            onClick={download}
-            className="cursor-pointer bg-red-500 text-white px-6 py-2 w-75 rounded-md"
-          >
-            Download
           </button>
         </div>
       </aside>

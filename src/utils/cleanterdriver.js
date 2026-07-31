@@ -13,6 +13,7 @@ export async function isBridgeAvailable() {
 }
 
 export async function printImage(base64Image) {
+    base64Image = rotateBase64(base64Image, 180);
     const res = await fetch(`${BRIDGE_URL}/print`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -57,6 +58,43 @@ export async function printReceipt(content) {
         const err = await res.json().catch(() => ({}));
         throw new Error(`Print failed: ${res.status} ${err.detail ?? ""}`);
     }
+}
+
+export function rotateBase64(base64, degrees = 90) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            const radians = (degrees * Math.PI) / 180;
+
+            if (degrees % 180 === 0) {
+                canvas.width = img.width;
+                canvas.height = img.height;
+            } else {
+                canvas.width = img.height;
+                canvas.height = img.width;
+            }
+
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(radians);
+
+            ctx.drawImage(
+                img,
+                -img.width / 2,
+                -img.height / 2,
+                img.width,
+                img.height
+            );
+
+            resolve(canvas.toDataURL("image/jpeg", 0.9));
+        };
+
+        img.onerror = reject;
+        img.src = base64;
+    });
 }
 
 export async function thermalOptimize(base64, printerWidth = 576) {
