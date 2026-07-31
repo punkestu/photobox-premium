@@ -2,6 +2,7 @@ import Calendar from "./framessingle/calendar.png";
 import Receipt from "./framessingle/receipt.png";
 import Og from "./framessingle/og.png";
 import Carfreeday from "./framessingle/carfreeday.png";
+import Cfdsejati from "./framessingle/cfd-sejati.png";
 
 export function all() {
     return [
@@ -57,6 +58,19 @@ export function all() {
             width: 685,
             height: 1299,
             ratio: [685, 464],
+        }, {
+            key: "cfdsejati",
+            framecount: 2,
+            display: Cfdsejati,
+            direction: "vertical",
+            offsetleft: 25,
+            offsettop: 259,
+            offsetright: 25,
+            offsetbottom: 65,
+            gap: 24,
+            width: 685,
+            height: 1299,
+            ratio: [636, 402],
         }
     ];
 }
