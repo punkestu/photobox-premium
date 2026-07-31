@@ -114,10 +114,16 @@ export default function CameraPage() {
       </section>
       <button
         onClick={start}
-        className="h-full w-full cursor-pointer text-white font-semibold text-xl absolute top-0 left-0"
+        className="h-full w-full cursor-pointer text-white font-semibold text-2xl absolute top-0 left-0 flex justify-center items-center"
       >
-        {state == "standby" ? "Start" : ""}
-        {state == "start" && timer > 0 ? timer : ""}
+        {state == "standby" ? "Press to Start" : ""}
+        {state == "start" && timer > 0 ? (
+          <span className="text-4xl aspect-square bg-slate-700 w-20 flex justify-center items-center rounded-full">
+            {timer}
+          </span>
+        ) : (
+          ""
+        )}
       </button>
       {state == "standby" && (
         <header className="absolute top-4 left-1/2 -translate-x-1/2 bg-white w-[75%] flex justify-center gap-2 p-2 rounded-md">

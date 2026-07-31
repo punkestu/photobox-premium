@@ -29,7 +29,6 @@ export default function FramePage() {
   };
 
   const finish = () => {
-    console.log(offlinemode);
     if (!confirm("Anda yakin semua sudah sesuai?")) return;
     if (offlinemode) return navigate("/finish-offline");
     return navigate("/upload");

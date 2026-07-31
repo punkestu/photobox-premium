@@ -6,6 +6,9 @@ import * as LocalBuffer from "../utils/localbuffer";
 import { useNavigate } from "react-router";
 import LogoBorderTypo from "../assets/Logo_border_typo.webp";
 import { QRCodeCanvas } from "qrcode.react";
+import { photosProvider } from "../hooks/usePhotosProvider";
+import { downloadBase64 } from "../utils/downloader";
+import { frametypeProvider } from "../hooks/useFrametypeProvider";
 
 function QR({ value, className }) {
   return (
@@ -17,12 +20,17 @@ function QR({ value, className }) {
 
 export default function FinishOfflinePage() {
   const [framed, setFramed] = useContext(framedProvider);
+  const [photos, setPhotos] = useContext(photosProvider);
+  const setFrametype = useContext(frametypeProvider)[1];
   const [optimizedframed, setOptimizedframed] = useState(null);
   const [printing, setPrinting] = useState(false);
   const navigate = useNavigate();
 
   const reset = () => {
     LocalBuffer.deleteObjects();
+    setFramed(null);
+    setPhotos([]);
+    setFrametype(null);
     navigate("/");
   };
   const reprint = () => {
@@ -30,13 +38,27 @@ export default function FinishOfflinePage() {
       PrintImage(res);
     });
   };
+  const download = () => {
+    const now = new Date().getSeconds();
+    photos.map((photo, i) => {
+      downloadBase64(photo, `${now}_photo_${i + 1}`);
+    });
+    downloadBase64(framed, `${now}_framed`);
+  };
 
   useEffect(() => {
-    if (framed) return;
+    if (framed && photos.length > 0) return;
+    LocalBuffer.getObjects().then((objects) =>
+      setPhotos(
+        objects
+          .filter((object) => object.type == "image_base64")
+          .map((object) => object.blob),
+      ),
+    );
     LocalBuffer.getObject("framed").then((object) =>
       object ? setFramed(object.blob) : null,
     );
-  }, [setFramed, framed]);
+  }, [setFramed, framed, photos, setPhotos]);
   useEffect(() => {
     thermalOptimize(framed).then((res) => {
       PrintImage(res);
@@ -65,6 +87,12 @@ export default function FinishOfflinePage() {
           className="cursor-pointer bg-red-500 text-white px-6 py-2 w-75 rounded-md"
         >
           Reprint
+        </button>
+        <button
+          onClick={download}
+          className="cursor-pointer bg-red-500 text-white px-6 py-2 w-75 rounded-md"
+        >
+          Download
         </button>
       </div>
       <div className="flex flex-col items-center justify-center -mb-7">
