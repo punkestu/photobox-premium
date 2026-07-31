@@ -13,7 +13,6 @@ export async function isBridgeAvailable() {
 }
 
 export async function printImage(base64Image) {
-    base64Image = rotateBase64(base64Image, 180);
     const res = await fetch(`${BRIDGE_URL}/print`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -32,7 +31,6 @@ export async function printImage(base64Image) {
 }
 
 export async function PrintImage(base64Image) {
-    base64Image = rotateBase64(base64Image, 180);
     if (isPrinting) throw new Error(`Printer still working...`);
     isPrinting = true;
     const ready = await isBridgeAvailable();
