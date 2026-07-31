@@ -46,8 +46,8 @@ export default function FramePage() {
     LocalBuffer.getObject("frame_selected").then((object) =>
       object ? setFrametype(object.blob) : null,
     );
-    LocalBuffer.getObject("framed_base64").then((object) =>
-      object ? setFramed(object) : null,
+    LocalBuffer.getObject("framed").then((object) =>
+      object ? setFramed(object.blob) : null,
     );
   }, [setPhotos, setFrametype, setFramed]);
 

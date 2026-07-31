@@ -27,4 +27,18 @@
             transform: rotate(10deg);
         }
     }
+
+    @keyframes print {
+        from {
+            transform: translate(0, -100%);
+        }
+
+        to {
+            transform: translate(0, 0);
+        }
+    }
+
+    .animate-print {
+        animation: print 10s linear forwards;
+    }
 }

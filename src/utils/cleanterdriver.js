@@ -13,14 +13,13 @@ export async function isBridgeAvailable() {
 }
 
 export async function printImage(base64Image) {
-    const resized = await thermalOptimize(base64Image);
     const res = await fetch(`${BRIDGE_URL}/print`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             "cut": true,
             "content": [{
-                "type": "image", "base64": resized.split(",")[1], "align": "center"
+                "type": "image", "base64": base64Image.split(",")[1], "align": "center"
             }]
         }),
     });
