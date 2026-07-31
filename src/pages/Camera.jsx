@@ -14,6 +14,7 @@ export default function CameraPage() {
   const [photos, setPhotos] = useContext(photosProvider);
   const [state, setState] = useState("standby");
   const [timer, setTimer] = useState(3);
+  const [flashlight, setFlashlight] = useState(false);
   const [frametype, setFrametype] = useContext(frametypeProvider);
 
   const screenRef = useRef(null);
@@ -28,12 +29,18 @@ export default function CameraPage() {
   const onTimer = useCallback(() => {
     if (timer > 0) return;
     setTimeout(() => {
+      setFlashlight(true);
+    }, 50);
+    setTimeout(() => {
       const photo = Camera.capture(screenRef);
       setPhotos((prev) => [...prev, photo]);
     }, 100);
     setTimeout(() => {
-      setTimer(3);
+      setFlashlight(false);
     }, 1000);
+    setTimeout(() => {
+      setTimer(3);
+    }, 1500);
   }, [timer, setPhotos]);
 
   useEffect(() => {
@@ -114,21 +121,24 @@ export default function CameraPage() {
       </section>
       <button
         onClick={start}
-        className="h-full w-full cursor-pointer text-white font-semibold text-2xl absolute top-0 left-0 flex justify-center items-center"
+        className={`h-full w-full cursor-pointer text-white font-semibold text-2xl absolute top-0 left-0 flex justify-center items-center ${flashlight ? "bg-white" : ""}`}
       >
         {state == "standby" ? "Press to Start" : ""}
         {state == "start" && timer > 0 ? (
-          <span className="text-4xl aspect-square bg-slate-700 w-20 flex justify-center items-center rounded-full">
+          <span className="text-4xl aspect-square bg-slate-500/50 w-20 flex justify-center items-center rounded-full">
             {timer}
           </span>
         ) : (
           ""
         )}
       </button>
-      {state == "standby" && (
-        <header className="absolute top-4 left-1/2 -translate-x-1/2 bg-white w-[75%] flex justify-center gap-2 p-2 rounded-md">
+      {state == "standby" && !frametype && (
+        <div className="absolute top-1/2 left-1/2 -translate-1/2 bg-white w-[90%] h-[90%] p-2 rounded-md overflow-y-auto grid grid-cols-3 gap-4">
+          <h1 className="col-span-full text-center p-2 font-semibold text-2xl sticky top-0 bg-white">
+            Pilih Tipe Strip
+          </h1>
           {Frames.all().map((frame) => (
-            <label className="w-14 h-14" key={`frame_type_${frame.key}`}>
+            <label className="aspect-square" key={`frame_type_${frame.key}`}>
               <input
                 type="radio"
                 name="frame-type"
@@ -146,7 +156,7 @@ export default function CameraPage() {
               />
             </label>
           ))}
-        </header>
+        </div>
       )}
       <section className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2">
         {photos.map((photo, i) => (

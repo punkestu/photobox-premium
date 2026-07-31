@@ -101,10 +101,10 @@ export default function FinishOfflinePage() {
           <div className="w-76 h-3 bg-slate-300"></div>
         </div>
         <div className="grow overflow-y-auto hide-scrollbar relative shadow-inner w-70">
-          <div className="w-full h-5 bg-linear-to-b from-gray-500 to-transparent absolute z-10"></div>
+          <div className="w-full h-5 bg-linear-to-b from-gray-500 to-transparent sticky top-0 z-10"></div>
           <img
             src={optimizedframed}
-            className={`w-full ${printing ? "animate-print" : ""}`}
+            className={`w-full absolute top-0 ${printing ? "animate-print" : ""}`}
           />
         </div>
       </aside>
