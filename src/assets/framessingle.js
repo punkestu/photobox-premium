@@ -1,6 +1,7 @@
 import Calendar from "./framessingle/calendar.png";
 import Receipt from "./framessingle/receipt.png";
 import Og from "./framessingle/og.png";
+import Carfreeday from "./framessingle/carfreeday.png";
 
 export function all() {
     return [
@@ -43,6 +44,19 @@ export function all() {
             width: 685,
             height: 1950,
             ratio: [685, 508],
+        }, {
+            key: "carfreeday",
+            framecount: 2,
+            display: Carfreeday,
+            direction: "vertical",
+            offsetleft: 0,
+            offsettop: 186,
+            offsetright: 0,
+            offsetbottom: 65,
+            gap: 0,
+            width: 685,
+            height: 1299,
+            ratio: [685, 464],
         }
     ];
 }

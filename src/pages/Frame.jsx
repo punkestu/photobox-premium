@@ -81,32 +81,6 @@ export default function FramePage() {
       <div className="flex justify-center p-4 overflow-auto h-full bg-slate-200 rounded-md">
         <img ref={displayRef} className="h-fit" />
       </div>
-      {/* <div className="overflow-x-auto h-[90%] bg-slate-200 py-2 px-4">
-            <div className="w-fit flex gap-8 h-full">
-              <button
-                onClick={() => setFrame(null)}
-                className="h-full w-50 bg-red-300 cursor-pointer flex justify-center items-center p-2"
-              >
-                CLEAR
-              </button>
-              {frametype &&
-                FrameManager.all()
-                  .find((frame) => frame.key == frametype.key)
-                  .frames.map((frame, i) => (
-                    <button
-                      onClick={() => setFrame(frame)}
-                      key={`frame_${i}`}
-                      className="h-full w-50 bg-blue-400/50 cursor-pointer flex justify-center items-center p-2"
-                    >
-                      <img
-                        src={frame}
-                        alt=""
-                        className="h-full w-full object-contain"
-                      />
-                    </button>
-                  ))}
-            </div>
-          </div> */}
     </main>
   );
 }
