@@ -162,7 +162,7 @@ export default function CameraPage() {
           ))}
         </div>
       )}
-      {frametype && (
+      {state == "standby" && frametype && (
         <button
           onClick={() => setFrametype(null)}
           className="absolute left-4 top-4 w-40 aspect-square border-2 border-yellow-400 rounded-md bg-white"
