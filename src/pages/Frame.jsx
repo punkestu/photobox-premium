@@ -4,6 +4,7 @@ import { photosProvider } from "../hooks/usePhotosProvider";
 import { framedProvider } from "../hooks/useFramedProvider";
 import { frametypeProvider } from "../hooks/useFrametypeProvider";
 
+import * as FramesSingle from "../assets/framessingle";
 import * as FrameRenderer from "../utils/framerenderer";
 import * as LocalBuffer from "../utils/localbuffer";
 import { offlinemodeProvider } from "../hooks/useOfflinemodeProvider";
@@ -42,7 +43,11 @@ export default function FramePage() {
       ),
     );
     LocalBuffer.getObject("frame_selected").then((object) =>
-      object ? setFrametype(object.blob) : null,
+      object
+        ? setFrametype(
+            FramesSingle.all().find((frame) => frame.key == object.blob.key),
+          )
+        : null,
     );
     LocalBuffer.getObject("framed").then((object) =>
       object ? setFramed(object.blob) : null,
@@ -54,7 +59,7 @@ export default function FramePage() {
       FrameRenderer.render(
         displayRef,
         photos,
-        frametype.display,
+        frametype.frame ?? frametype.display,
         frametype,
       ).then((res) => {
         LocalBuffer.saveObject("framed", "framed_base64", res);

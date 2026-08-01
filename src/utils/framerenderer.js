@@ -30,15 +30,26 @@ export async function render(displayRef, photos, frame, frametype) {
             canvas.height
         );
     }
-    const ratio = frametype && frametype.ratio ? frametype.ratio[0] / frametype.ratio[1] : 4 / 3;
-    console.log(frametype.ratio[0], frametype.ratio[1]);
+    const ratiox = frametype && frametype.ratio ? frametype.ratio[0] : 4;
+    const ratioy = frametype && frametype.ratio ? frametype.ratio[1] : 3;
+    const ratio = ratiox / ratioy;
+    // console.log(frametype.ratio[0], frametype.ratio[1]);
 
     if (frametype.direction == "vertical") {
         images.forEach((img, i) => {
-            const wmth = img.width >= img.height; // is img width is more than img height
-            const imgwidth = wmth ? ratio * img.height : img.width;
-            const imgheight = wmth ? img.height : 1 / ratio * img.width;
+            var imgwidth = img.height * ratio;
+            if (imgwidth > img.width) {
+                imgwidth = img.width;
+            }
+            var imgheight = imgwidth / ratio;
+
             const imgtocanvasratio = (canvas.width - (frametype.offsetleft + frametype.offsetright)) / imgwidth;
+            const imgwidthrender = imgwidth * imgtocanvasratio;
+            const imgheightrender = imgwidthrender / ratio;
+            console.log(imgwidth / imgheight, imgwidthrender / imgheightrender, ratio);
+            console.log(img.width, img.height);
+            console.log(imgwidth, imgheight);
+            console.log(imgwidthrender, imgheightrender);
             ctx.drawImage(
                 img,
                 img.width / 2 - imgwidth / 2,
@@ -46,9 +57,9 @@ export async function render(displayRef, photos, frame, frametype) {
                 imgwidth,
                 imgheight,
                 frametype.offsetleft,
-                i * imgheight * imgtocanvasratio + (i * frametype.gap) + frametype.offsettop,
-                imgwidth * imgtocanvasratio,
-                imgheight * imgtocanvasratio
+                i * imgheightrender + (i * frametype.gap) + frametype.offsettop,
+                imgwidthrender,
+                imgheightrender
             );
         });
     } else if (frametype.direction == "horizontal") {
@@ -82,7 +93,7 @@ export async function render(displayRef, photos, frame, frametype) {
         ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
     }
 
-    renderCanvasToImage(canvas, displayRef.current, 0.75);
+    renderCanvasToImage(canvas, displayRef.current, 1);
     return canvas.toDataURL(
         "image/jpeg",
         1

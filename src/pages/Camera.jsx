@@ -134,9 +134,9 @@ export default function CameraPage() {
         )}
       </button>
       {state == "standby" && !frametype && (
-        <div className="absolute top-1/2 left-1/2 -translate-1/2 bg-white w-[90%] h-[90%] p-2 rounded-md overflow-y-auto grid grid-cols-3 gap-4">
-          <h1 className="col-span-full text-center p-2 font-semibold text-2xl sticky top-0 bg-white">
-            Pilih Tipe Strip
+        <div className="absolute top-1/2 left-1/2 -translate-1/2 bg-white w-[90%] h-[90%] p-4 pt-0 rounded-md overflow-y-auto grid grid-cols-3 gap-4">
+          <h1 className="col-span-full text-center p-4 font-semibold text-2xl sticky top-0 bg-white">
+            Pilih Strip
           </h1>
           {Frames.all().map((frame) => (
             <label

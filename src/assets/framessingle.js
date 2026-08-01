@@ -1,15 +1,43 @@
-import Calendar from "./framessingle/calendar.png";
-import Receipt from "./framessingle/receipt.png";
 import Og from "./framessingle/og.png";
+import OgDisplay from "./framessingle/og-display.png";
+
 import Carfreeday from "./framessingle/carfreeday.png";
+import CarfreedayDisplay from "./framessingle/carfreeday-display.png";
+
 import Cfdsejati from "./framessingle/cfd-sejati.png";
+import CfdsejatiDisplay from "./framessingle/cfd-sejati-display.png";
+
+import Calendar from "./framessingle/calendar.png";
+import CalendarDisplay from "./framessingle/calendar-display.png";
+
+import Receipt from "./framessingle/receipt.png";
+import ReceiptDisplay from "./framessingle/receipt-display.png";
+
+import Cfd2 from "./framessingle/cfd2.png";
+import Cfd2Display from "./framessingle/cfd2-display.png";
+
+import Weekend from "./framessingle/weekend.png";
+import WeekendDisplay from "./framessingle/weekend-display.png";
+
+import Playlist from "./framessingle/playlist.png";
+import PlaylistDisplay from "./framessingle/playlist-display.png";
+
+import Banyuwangi from "./framessingle/banyuwangi.png";
+import BanyuwangiDisplay from "./framessingle/banyuwangi-display.png";
+
+import Travelblog from "./framessingle/travelblog.png";
+import TravelblogDisplay from "./framessingle/travelblog-display.png";
+
+import Heritage from "./framessingle/heritage.png";
+import HeritageDisplay from "./framessingle/heritage-display.png";
 
 export function all() {
     return [
         {
             key: "calendar",
             framecount: 1,
-            display: Calendar,
+            display: CalendarDisplay,
+            frame: Calendar,
             direction: "vertical",
             offsetleft: 23,
             offsettop: 636,
@@ -22,7 +50,8 @@ export function all() {
         }, {
             key: "receipt",
             framecount: 2,
-            display: Receipt,
+            display: ReceiptDisplay,
+            frame: Receipt,
             direction: "vertical",
             offsetleft: 61,
             offsettop: 283,
@@ -35,7 +64,8 @@ export function all() {
         }, {
             key: "og",
             framecount: 3,
-            display: Og,
+            display: OgDisplay,
+            frame: Og,
             direction: "vertical",
             offsetleft: 0,
             offsettop: 253,
@@ -48,7 +78,8 @@ export function all() {
         }, {
             key: "carfreeday",
             framecount: 2,
-            display: Carfreeday,
+            display: CarfreedayDisplay,
+            frame: Carfreeday,
             direction: "vertical",
             offsetleft: 0,
             offsettop: 186,
@@ -61,7 +92,8 @@ export function all() {
         }, {
             key: "cfdsejati",
             framecount: 2,
-            display: Cfdsejati,
+            display: CfdsejatiDisplay,
+            frame: Cfdsejati,
             direction: "vertical",
             offsetleft: 25,
             offsettop: 259,
@@ -71,6 +103,90 @@ export function all() {
             width: 685,
             height: 1299,
             ratio: [636, 402],
+        }, {
+            key: "cfd2display",
+            framecount: 3,
+            display: Cfd2Display,
+            frame: Cfd2,
+            direction: "vertical",
+            offsetleft: 35,
+            offsettop: 42,
+            offsetright: 35,
+            offsetbottom: 65,
+            gap: 4,
+            width: 685,
+            height: 1181,
+            ratio: [615, 315],
+        }, {
+            key: "weekend",
+            framecount: 3,
+            display: WeekendDisplay,
+            frame: Weekend,
+            direction: "vertical",
+            offsetleft: 56,
+            offsettop: 327,
+            offsetright: 61,
+            offsetbottom: 65,
+            gap: 10,
+            width: 685,
+            height: 1950,
+            ratio: [568, 445],
+        }, {
+            key: "playlist",
+            framecount: 3,
+            display: PlaylistDisplay,
+            frame: Playlist,
+            direction: "vertical",
+            offsetleft: 81,
+            offsettop: 313,
+            offsetright: 82,
+            offsetbottom: 65,
+            gap: 61,
+            width: 685,
+            height: 1950,
+            ratio: [520, 366],
+        }, {
+            key: "banyuwangi",
+            framecount: 1,
+            display: BanyuwangiDisplay,
+            frame: Banyuwangi,
+            direction: "vertical",
+            offsetleft: 29,
+            offsettop: 378,
+            offsetright: 28,
+            offsetbottom: 65,
+            gap: 10,
+            width: 685,
+            height: 1181,
+            ratio: [628, 424],
+        }, {
+            key: "travelblog",
+            framecount: 1,
+            display: TravelblogDisplay,
+            frame: Travelblog,
+            direction: "vertical",
+            offsetleft: 28,
+            offsettop: 312,
+            offsetright: 25,
+            offsetbottom: 65,
+            gap: 10,
+            width: 685,
+            height: 1181,
+            ratio: [632, 644],
+        }, {
+            key: "heritage",
+            framecount: 1,
+            display: HeritageDisplay,
+            frame: Heritage,
+            direction: "vertical",
+            offsetleft: 27,
+            offsettop: 443,
+            offsetright: 27,
+            offsetbottom: 65,
+            gap: 10,
+            width: 685,
+            height: 1181,
+            ratio: [631, 510],
         }
     ];
 }
