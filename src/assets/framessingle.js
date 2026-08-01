@@ -43,6 +43,15 @@ import WantedDisplay from "./framessingle/wanted-display.png";
 import Memories from "./framessingle/memories.png";
 import MemoriesDisplay from "./framessingle/memories-display.png";
 
+import Instagram from "./framessingle/instagram.png";
+import InstagramDisplay from "./framessingle/instagram-display.png";
+
+import Playing from "./framessingle/playing.png";
+import PlayingDisplay from "./framessingle/playing-display.png";
+
+import Playlist2 from "./framessingle/playlist2.png";
+import Playlist2Display from "./framessingle/playlist2-display.png";
+
 export function all() {
     return [
         {
@@ -255,6 +264,48 @@ export function all() {
             width: 685,
             height: 1299,
             ratio: [632, 307],
+        }, {
+            key: "instagram",
+            framecount: 1,
+            display: InstagramDisplay,
+            frame: Instagram,
+            direction: "vertical",
+            offsetleft: 108,
+            offsettop: 236,
+            offsetright: 108,
+            offsetbottom: 65,
+            gap: 16,
+            width: 685,
+            height: 865,
+            ratio: [468, 439],
+        }, {
+            key: "playing",
+            framecount: 2,
+            display: PlayingDisplay,
+            frame: Playing,
+            direction: "vertical",
+            offsetleft: 33,
+            offsettop: 145,
+            offsetright: 33,
+            offsetbottom: 65,
+            gap: 17,
+            width: 685,
+            height: 1154,
+            ratio: [616, 327],
+        }, {
+            key: "playlist2",
+            framecount: 2,
+            display: Playlist2Display,
+            frame: Playlist2,
+            direction: "vertical",
+            offsetleft: 26,
+            offsettop: 695,
+            offsetright: 26,
+            offsetbottom: 65,
+            gap: 27,
+            width: 685,
+            height: 1652,
+            ratio: [631, 391],
         }
     ];
 }

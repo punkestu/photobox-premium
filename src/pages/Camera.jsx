@@ -162,6 +162,14 @@ export default function CameraPage() {
           ))}
         </div>
       )}
+      {frametype && (
+        <button
+          onClick={() => setFrametype(null)}
+          className="absolute left-4 top-4 w-40 aspect-square border-2 border-yellow-400 rounded-md bg-white"
+        >
+          <img src={frametype.display} />
+        </button>
+      )}
       <section className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2">
         {photos.map((photo, i) => (
           <div
