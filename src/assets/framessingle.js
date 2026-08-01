@@ -31,6 +31,18 @@ import TravelblogDisplay from "./framessingle/travelblog-display.png";
 import Heritage from "./framessingle/heritage.png";
 import HeritageDisplay from "./framessingle/heritage-display.png";
 
+import Invoice from "./framessingle/invoice.png";
+import InvoiceDisplay from "./framessingle/invoice-display.png";
+
+import Daily from "./framessingle/daily.png";
+import DailyDisplay from "./framessingle/daily-display.png";
+
+import Wanted from "./framessingle/wanted.png";
+import WantedDisplay from "./framessingle/wanted-display.png";
+
+import Memories from "./framessingle/memories.png";
+import MemoriesDisplay from "./framessingle/memories-display.png";
+
 export function all() {
     return [
         {
@@ -187,6 +199,62 @@ export function all() {
             width: 685,
             height: 1181,
             ratio: [631, 510],
+        }, {
+            key: "invoice",
+            framecount: 3,
+            display: InvoiceDisplay,
+            frame: Invoice,
+            direction: "vertical",
+            offsetleft: 28,
+            offsettop: 307,
+            offsetright: 27,
+            offsetbottom: 65,
+            gap: 23,
+            width: 685,
+            height: 1683,
+            ratio: [630, 353],
+        }, {
+            key: "daily",
+            framecount: 1,
+            display: DailyDisplay,
+            frame: Daily,
+            direction: "vertical",
+            offsetleft: 19,
+            offsettop: 373,
+            offsetright: 19,
+            offsetbottom: 65,
+            gap: 23,
+            width: 685,
+            height: 1032,
+            ratio: [646, 442],
+        }, {
+            key: "wanted",
+            framecount: 1,
+            display: WantedDisplay,
+            frame: Wanted,
+            direction: "vertical",
+            offsetleft: 56,
+            offsettop: 245,
+            offsetright: 56,
+            offsetbottom: 65,
+            gap: 23,
+            width: 685,
+            height: 947,
+            ratio: [568, 388],
+        }, {
+            key: "memories",
+            framecount: 3,
+            display: MemoriesDisplay,
+            frame: Memories,
+            direction: "vertical",
+            offsetleft: 31,
+            offsettop: 225,
+            offsetright: 22,
+            offsetbottom: 65,
+            gap: 16,
+            width: 685,
+            height: 1299,
+            ratio: [632, 307],
         }
     ];
 }

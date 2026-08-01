@@ -1,22 +1,19 @@
 import { useNavigate } from "react-router";
 import Logo120Transparent from "../assets/Logo_border_120px.webp";
-// import useGoogle from "../hooks/useGoogle";
-// import { useContext, useEffect } from "react";
-// import { credentialProvider } from "../hooks/useCredentialProvider";
-// import { PrintImage } from "../utils/cleanterdriver";
-// import TestPrint from "../assets/frames/test.png";
+import { useEffect, useState } from "react";
+import { preloadFrames } from "../utils/autoloadframes";
 
 export default function WelcomePage() {
-  // const [credential, setCredential] = useContext(credentialProvider);
-  // useEffect(() => {
-  //   setCredential(localStorage.getItem("credential"));
-  // }, [setCredential]);
-  // const login = useGoogle();
+  const [ready, setReady] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    preloadFrames().then(() => setReady(true));
+  }, []);
 
   return (
     <button
-      // onClick={() => (credential ? navigate("/camera") : login())}
+      disabled={!ready}
       onClick={() => navigate("/camera")}
       className="cursor-pointer h-full w-full flex flex-col justify-center items-center text-white"
     >

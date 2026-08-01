@@ -74,7 +74,11 @@ export default function FinishOfflinePage() {
     <main className="h-screen flex gap-4">
       <aside className="p-8 flex flex-col gap-4 justify-center items-center grow">
         <img src={LogoBorderTypo} width={120} />
-        <QR value={"https://youtube.com"} />
+        <QR
+          value={
+            "https://drive.google.com/drive/folders/1z1Y3hjUhc9Z8x6umDkStNRawy1p3d2mW"
+          }
+        />
         <div className="flex flex-col justify-center items-center gap-2">
           <button
             onClick={reset}
