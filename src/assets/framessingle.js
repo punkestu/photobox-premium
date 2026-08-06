@@ -52,6 +52,39 @@ import PlayingDisplay from "./framessingle/playing-display.png";
 import Playlist2 from "./framessingle/playlist2.png";
 import Playlist2Display from "./framessingle/playlist2-display.png";
 
+import Banyuwangi_2 from "./framessingle/banyuwangi-2.png";
+import Banyuwangi_2Display from "./framessingle/banyuwangi-2-display.png";
+
+import Heritage_2 from "./framessingle/heritage-2.png";
+import Heritage_2Display from "./framessingle/heritage-2-display.png";
+
+import Instagramhome from "./framessingle/instagram-home.png";
+import InstagramhomeDisplay from "./framessingle/instagram-home-display.png";
+
+import Instagrampost from "./framessingle/instagram-post.png";
+import InstagrampostDisplay from "./framessingle/instagram-post-display.png";
+
+import Receipt_2 from "./framessingle/receipt-2.png";
+import Receipt_2Display from "./framessingle/receipt-2-display.png";
+
+import Sejati from "./framessingle/sejati.png";
+import SejatiDisplay from "./framessingle/sejati-display.png";
+
+import Simple from "./framessingle/simple.png";
+import SimpleDisplay from "./framessingle/simple-display.png";
+
+import Spotify from "./framessingle/spotify.png";
+import SpotifyDisplay from "./framessingle/spotify-display.png";
+
+import Tagihan from "./framessingle/tagihan.png";
+import TagihanDisplay from "./framessingle/tagihan-display.png";
+
+import Ticket from "./framessingle/ticket.png";
+import TicketDisplay from "./framessingle/ticket-display.png";
+
+import Todaymemory from "./framessingle/todaymemory.png";
+import TodaymemoryDisplay from "./framessingle/todaymemory-display.png";
+
 export function all() {
     return [
         {
@@ -306,6 +339,160 @@ export function all() {
             width: 685,
             height: 1652,
             ratio: [631, 391],
+        }, {
+            key: "bayuwangi-2",
+            framecount: 2,
+            display: Banyuwangi_2Display,
+            frame: Banyuwangi_2,
+            direction: "vertical",
+            offsetleft: 29,
+            offsettop: 378,
+            offsetright: 27,
+            offsetbottom: 65,
+            gap: 25,
+            width: 685,
+            height: 1181,
+            ratio: [629, 258],
+        }, {
+            key: "heritage-2",
+            framecount: 2,
+            display: Heritage_2Display,
+            frame: Heritage_2,
+            direction: "vertical",
+            offsetleft: 53,
+            offsettop: 425,
+            offsetright: 54,
+            offsetbottom: 65,
+            gap: 9,
+            width: 685,
+            height: 1181,
+            ratio: [578, 271],
+        }, {
+            key: "instagramhome",
+            framecount: 2,
+            display: InstagramhomeDisplay,
+            frame: Instagramhome,
+            direction: "vertical",
+            offsetleft: 54,
+            offsettop: 308,
+            offsetright: 57,
+            offsetbottom: 65,
+            gap: 11,
+            width: 685,
+            height: 1181,
+            ratio: [574, 338],
+        }, {
+            key: "instagrampost",
+            framecount: 2,
+            display: InstagrampostDisplay,
+            frame: Instagrampost,
+            direction: "vertical",
+            offsetleft: 77,
+            offsettop: 257,
+            offsetright: 99,
+            offsetbottom: 65,
+            gap: 52,
+            width: 685,
+            height: 1181,
+            ratio: [509, 321],
+        }, {
+            key: "receipt-2",
+            framecount: 2,
+            display: Receipt_2Display,
+            frame: Receipt_2,
+            direction: "vertical",
+            offsetleft: 88,
+            offsettop: 190,
+            offsetright: 88,
+            offsetbottom: 65,
+            gap: 133,
+            width: 685,
+            height: 1181,
+            ratio: [509, 346],
+        }, {
+            key: "sejati",
+            framecount: 2,
+            display: SejatiDisplay,
+            frame: Sejati,
+            direction: "vertical",
+            offsetleft: 27,
+            offsettop: 313,
+            offsetright: 24,
+            offsetbottom: 65,
+            gap: 21,
+            width: 685,
+            height: 1181,
+            ratio: [634, 332],
+        }, {
+            key: "simple",
+            framecount: 3,
+            display: SimpleDisplay,
+            frame: Simple,
+            direction: "vertical",
+            offsetleft: 141,
+            offsettop: 157,
+            offsetright: 140,
+            offsetbottom: 65,
+            gap: 36,
+            width: 685,
+            height: 1181,
+            ratio: [404, 249],
+        }, {
+            key: "spotify",
+            framecount: 2,
+            display: SpotifyDisplay,
+            frame: Spotify,
+            direction: "vertical",
+            offsetleft: 89,
+            offsettop: 84,
+            offsetright: 90,
+            offsetbottom: 65,
+            gap: 0,
+            width: 685,
+            height: 1181,
+            ratio: [506, 359],
+        }, {
+            key: "tagihan",
+            framecount: 2,
+            display: TagihanDisplay,
+            frame: Tagihan,
+            direction: "vertical",
+            offsetleft: 24,
+            offsettop: 311,
+            offsetright: 24,
+            offsetbottom: 65,
+            gap: 13,
+            width: 685,
+            height: 1181,
+            ratio: [637, 272],
+        }, {
+            key: "ticket",
+            framecount: 2,
+            display: TicketDisplay,
+            frame: Ticket,
+            direction: "vertical",
+            offsetleft: 103,
+            offsettop: 362,
+            offsetright: 104,
+            offsetbottom: 65,
+            gap: 5,
+            width: 685,
+            height: 1181,
+            ratio: [478, 300],
+        }, {
+            key: "todaymemory",
+            framecount: 2,
+            display: TodaymemoryDisplay,
+            frame: Todaymemory,
+            direction: "vertical",
+            offsetleft: 77,
+            offsettop: 314,
+            offsetright: 82,
+            offsetbottom: 65,
+            gap: 2,
+            width: 685,
+            height: 1181,
+            ratio: [526, 291],
         }
     ];
 }

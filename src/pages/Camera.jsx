@@ -14,18 +14,24 @@ export default function CameraPage() {
   const [loaded, setLoaded] = useState(false);
   const [photos, setPhotos] = useContext(photosProvider);
   const [state, setState] = useState("standby");
-  const [timer, setTimer] = useState(3);
+  const [retakeid, setRetakeid] = useState(null);
+  const [timer, setTimer] = useState(-1);
   const [flashlight, setFlashlight] = useState(false);
+  const [filters, setFilters] = useState({});
   const [frametype, setFrametype] = useContext(frametypeProvider);
 
   const screenRef = useRef(null);
   const navigate = useNavigate();
 
-  const start = () => {
+  const start = useCallback(() => {
+    if (photos.length >= frametype.framecount) {
+      navigate("/frame");
+      return;
+    }
     if (state == "start" || !ready || !loaded || !frametype) return;
-    setState("start");
+    else setState("start");
     setTimer(3);
-  };
+  }, [state, frametype, setState, setTimer, photos, loaded, ready, navigate]);
 
   const onTimer = useCallback(() => {
     if (timer > 0) return;
@@ -34,21 +40,39 @@ export default function CameraPage() {
     }, 50);
     setTimeout(() => {
       const photo = Camera.capture(screenRef);
-      setPhotos((prev) => [...prev, photo]);
+      if (retakeid !== null) {
+        setPhotos((prev) => {
+          return prev.map((currphoto, i) => {
+            return retakeid == i ? photo : currphoto;
+          });
+        });
+      } else {
+        setPhotos((prev) => [...prev, photo]);
+      }
+      setTimeout(() => {
+        if (retakeid === null) {
+          setTimer(3);
+        }
+      }, 1500);
     }, 100);
     setTimeout(() => {
       setFlashlight(false);
     }, 1000);
-    setTimeout(() => {
-      setTimer(3);
-    }, 1500);
-  }, [timer, setPhotos]);
+  }, [timer, setPhotos, retakeid]);
 
   useEffect(() => {
     if (frametype) {
       LocalBuffer.saveObject("frame_selected", "frame_object", frametype);
     }
   }, [frametype]);
+
+  useEffect(() => {
+    if (retakeid === null) return;
+    setTimeout(() => {
+      setState("start");
+      setTimer(3);
+    }, 50);
+  }, [retakeid]);
 
   useEffect(() => {
     if (!ready || photos.length > 0 || loaded) return;
@@ -68,19 +92,17 @@ export default function CameraPage() {
 
   useEffect(() => {
     if (photos.length > 0) {
-      LocalBuffer.saveObject(
-        `photo_${photos.length}`,
-        "image_base64",
-        photos.at(-1),
-      );
+      photos.forEach((photo, i) => {
+        LocalBuffer.saveObject(`photo_${i}`, "image_base64", photo);
+      });
     }
     if (frametype && photos.length >= frametype.framecount) {
       setTimeout(() => {
         setState("finish");
       }, 100);
-      setTimeout(() => {
-        navigate("/frame");
-      }, 1000);
+      // setTimeout(() => {
+      //   navigate("/frame");
+      // }, 1000);
     }
   }, [photos, navigate, frametype]);
 
@@ -132,49 +154,81 @@ export default function CameraPage() {
         ) : (
           ""
         )}
+        {state != "start" && frametype && photos.length >= frametype.framecount ? (
+          <div className="w-80">
+            Tekan layar untuk selesaikan atau pilih foto untuk retake
+          </div>
+        ) : (
+          ""
+        )}
       </button>
       {state == "standby" && !frametype && (
         <div className="absolute top-1/2 left-1/2 -translate-1/2 bg-white w-[90%] h-[90%] p-4 pt-0 rounded-md overflow-y-auto grid grid-cols-3 gap-4">
-          <h1 className="col-span-full text-center p-4 font-semibold text-2xl sticky top-0 bg-white">
-            Pilih Strip
-          </h1>
-          {Frames.all().map((frame) => (
-            <label
-              className="aspect-square bg-slate-200"
-              key={`frame_type_${frame.key}`}
+          <div className="col-span-full flex justify-between py-4">
+            <h1 className="text-center font-semibold text-2xl sticky top-0 bg-white">
+              Pilih Strip
+            </h1>
+            <select
+              name="frame_count_filter"
+              id="frame_count_filter"
+              className="border p-1 rounded text-center"
+              onChange={(e) => {
+                setFilters((prev) => ({ ...prev, framecount: e.target.value }));
+              }}
             >
-              <input
-                type="radio"
-                name="frame-type"
-                value={frame.key}
-                checked={frametype?.key == frame.key}
-                onChange={() => {
-                  setFrametype(frame);
-                }}
-                className="peer sr-only"
-              />
-              <img
-                src={frame.display}
-                alt=""
-                className="h-full w-full object-contain p-2 rounded bg-transparent peer-checked:bg-blue-500 peer-checked:border-0 border border-slate-500"
-              />
-            </label>
-          ))}
+              <option value={0}>--- Pilih Jumlah Frame ---</option>
+              <option value={1}>1 Frame</option>
+              <option value={2}>2 Frame</option>
+              <option value={3}>3 Frame</option>
+            </select>
+          </div>
+          {Frames.all()
+            .filter((frame) => {
+              return (
+                !filters["framecount"] ||
+                filters["framecount"] == 0 ||
+                filters["framecount"] == frame.framecount
+              );
+            })
+            .map((frame) => (
+              <label
+                className="aspect-square bg-slate-200"
+                key={`frame_type_${frame.key}`}
+              >
+                <input
+                  type="radio"
+                  name="frame-type"
+                  value={frame.key}
+                  checked={frametype?.key == frame.key}
+                  onChange={() => {
+                    setFrametype(frame);
+                  }}
+                  className="peer sr-only"
+                />
+                <img
+                  src={frame.display ?? frame.frame}
+                  alt=""
+                  className="h-full w-full object-contain p-2 rounded bg-transparent peer-checked:bg-blue-500 peer-checked:border-0 border border-slate-500"
+                />
+              </label>
+            ))}
         </div>
       )}
-      {state == "standby" && frametype && (
+      {frametype && (
         <button
           onClick={() => setFrametype(null)}
-          className="absolute left-4 top-4 w-40 aspect-square border-2 border-yellow-400 rounded-md bg-white"
+          disabled={state != "standby"}
+          className="disabled:opacity-75 absolute left-4 top-4 w-40 aspect-square border-2 border-yellow-400 rounded-md bg-white"
         >
           <img src={frametype.display} />
         </button>
       )}
       <section className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2">
         {photos.map((photo, i) => (
-          <div
+          <button
+            onClick={() => setRetakeid(i)}
             key={`preview_photo_${i}`}
-            className="w-40 aspect-4/3 border-2 border-yellow-400 rounded-md bg-white"
+            className="w-40 aspect-4/3 border-2 border-yellow-400 rounded-md bg-white cursor-pointer"
             style={{
               aspectRatio:
                 frametype && frametype.ratio
@@ -187,7 +241,7 @@ export default function CameraPage() {
               alt={`preview_photo_${i}`}
               className="w-full h-full object-cover rounded-sm"
             />
-          </div>
+          </button>
         ))}
       </section>
     </main>
