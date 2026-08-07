@@ -9,6 +9,7 @@ import { FramedProvider } from "./hooks/useFramedProvider";
 import { FrametypeProvider } from "./hooks/useFrametypeProvider";
 import { OfflinemodeProvider } from "./hooks/useOfflinemodeProvider";
 import { PresetProvider } from "./hooks/usePresetProvider";
+import { UrlProvider } from "./hooks/useUrlProvider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -19,7 +20,9 @@ createRoot(document.getElementById("root")).render(
             <FrametypeProvider>
               <OfflinemodeProvider>
                 <PresetProvider>
-                  <Router />
+                  <UrlProvider>
+                    <Router />
+                  </UrlProvider>
                 </PresetProvider>
               </OfflinemodeProvider>
             </FrametypeProvider>

@@ -8,6 +8,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import { photosProvider } from "../hooks/usePhotosProvider";
 import { downloadBase64 } from "../utils/downloader";
 import { frametypeProvider } from "../hooks/useFrametypeProvider";
+import { urlProvider } from "../hooks/useUrlProvider";
 
 function QR({ value, className }) {
   return (
@@ -20,6 +21,7 @@ function QR({ value, className }) {
 export default function FinishOfflinePage() {
   const [framed, setFramed] = useContext(framedProvider);
   const [photos, setPhotos] = useContext(photosProvider);
+  const urldrive = useContext(urlProvider)[0];
   const setFrametype = useContext(frametypeProvider)[1];
   const [optimizedframed, setOptimizedframed] = useState(null);
   const [printing, setPrinting] = useState(false);
@@ -75,9 +77,7 @@ export default function FinishOfflinePage() {
       <aside className="p-8 flex flex-col gap-4 justify-center items-center grow">
         <img src={LogoBorderTypo} width={120} />
         <QR
-          value={
-            "https://drive.google.com/drive/folders/1z1Y3hjUhc9Z8x6umDkStNRawy1p3d2mW"
-          }
+          value={urldrive}
         />
         <div className="flex flex-col justify-center items-center gap-2">
           <button
