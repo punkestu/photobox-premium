@@ -8,12 +8,15 @@ import * as FramesSingle from "../assets/framessingle";
 import * as FrameRenderer from "../utils/framerenderer";
 import * as LocalBuffer from "../utils/localbuffer";
 import { offlinemodeProvider } from "../hooks/useOfflinemodeProvider";
+import { PHOTOBOX_PRESETS } from "../utils/filter/presets";
+import { presetProvider } from "../hooks/usePresetProvider";
 
 export default function FramePage() {
   const [frame] = useState(null);
   const [photos, setPhotos] = useContext(photosProvider);
   const [frametype, setFrametype] = useContext(frametypeProvider);
   const [offlinemode] = useContext(offlinemodeProvider);
+  const [preset, setPreset] = useContext(presetProvider);
   const setFramed = useContext(framedProvider)[1];
 
   const displayRef = useRef(null);
@@ -61,14 +64,15 @@ export default function FramePage() {
         photos,
         frametype.frame ?? frametype.display,
         frametype,
+        preset
       ).then((res) => {
         LocalBuffer.saveObject("framed", "framed_base64", res);
         setFramed(res);
       });
     }
-  }, [displayRef, photos, frame, frametype, setFramed]);
+  }, [displayRef, photos, frame, frametype, setFramed, preset]);
   return (
-    <main className="p-4 h-full flex flex-col gap-4">
+    <main className="p-4 h-full flex flex-col gap-2">
       <header className="w-full flex justify-between gap-2 p-2 bg-white sticky top-0 left-0 rounded-md">
         <button
           onClick={retake}
@@ -85,6 +89,11 @@ export default function FramePage() {
       </header>
       <div className="flex justify-center p-4 overflow-auto h-full bg-slate-200 rounded-md">
         <img ref={displayRef} className="h-fit" />
+      </div>
+      <div className="flex gap-3 justify-center bg-slate-200 p-2 rounded-md">
+        {Object.keys(PHOTOBOX_PRESETS).map((presetkey) => (
+          <button className={`aspect-square text-5xl ${preset == presetkey ? "bg-yellow-500" : "bg-white"} p-2 rounded-md`} onClick={() => setPreset(presetkey)}>{PHOTOBOX_PRESETS[presetkey].icon}</button>
+        ))}
       </div>
     </main>
   );

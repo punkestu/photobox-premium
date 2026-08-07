@@ -1,4 +1,7 @@
-export async function render(displayRef, photos, frame, frametype) {
+import { applyPhotoboxFilter } from "./filter/base";
+import { PHOTOBOX_PRESETS } from "./filter/presets";
+
+export async function render(displayRef, photos, frame, frametype, preset) {
     if (!displayRef) return;
     if (!document.querySelector("#___rendering_canvas")) {
         const canvas = document.createElement("canvas");
@@ -81,6 +84,22 @@ export async function render(displayRef, photos, frame, frametype) {
             );
         });
     }
+
+    const imageData = ctx.getImageData(0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    const presetData = preset ? PHOTOBOX_PRESETS[preset] : PHOTOBOX_PRESETS["natural"];
+
+    const filtered = applyPhotoboxFilter(imageData, presetData ?? {
+        brightness: 20,
+        contrast: 1.35,
+        saturation: 1.2
+    });
+
+    ctx.putImageData(filtered, 0, 0);
 
     if (frame) {
         const frameImage = await new Promise((res) => {

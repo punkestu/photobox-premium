@@ -84,12 +84,14 @@ export default function FinishOfflinePage() {
             onClick={reset}
             className="cursor-pointer bg-red-500 text-white px-6 py-2 w-75 rounded-md"
           >
+            🔄
             Refresh
           </button>
           <button
             onClick={reprint}
             className="cursor-pointer bg-red-500 text-white px-6 py-2 w-75 rounded-md"
           >
+            🖨️
             Reprint
           </button>
         </div>

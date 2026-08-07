@@ -8,6 +8,7 @@ import { PhotosProvider } from "./hooks/usePhotosProvider";
 import { FramedProvider } from "./hooks/useFramedProvider";
 import { FrametypeProvider } from "./hooks/useFrametypeProvider";
 import { OfflinemodeProvider } from "./hooks/useOfflinemodeProvider";
+import { PresetProvider } from "./hooks/usePresetProvider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root")).render(
           <FramedProvider>
             <FrametypeProvider>
               <OfflinemodeProvider>
-                <Router />
+                <PresetProvider>
+                  <Router />
+                </PresetProvider>
               </OfflinemodeProvider>
             </FrametypeProvider>
           </FramedProvider>

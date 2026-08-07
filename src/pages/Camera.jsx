@@ -141,6 +141,16 @@ export default function CameraPage() {
                 : "4/3",
           }}
         ></video>
+        <div className="absolute top-0 left-0 w-full h-full grid grid-cols-3 grid-rows-3">
+          <div className="border-e-2 border-b-2 border-white/15"></div>
+          <div className="border-e-2 border-b-2 border-white/15"></div>
+          <div className="border-b-2 border-white/15"></div>
+          <div className="border-e-2 border-b-2 border-white/15"></div>
+          <div className="border-e-2 border-b-2 border-white/15"></div>
+          <div className="border-b-2 border-white/15"></div>
+          <div className="border-e-2 border-white/15"></div>
+          <div className="border-e-2 border-white/15"></div>
+        </div>
       </section>
       <button
         onClick={start}
