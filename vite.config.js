@@ -92,7 +92,7 @@ export default defineConfig({
         start_url: "/",
         scope: "/",
 
-        display: "fullscreen",
+        display: "standalone",
         orientation: "landscape-primary",
 
         background_color: "#5C0F13",

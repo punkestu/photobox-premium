@@ -29,7 +29,7 @@ export default function UploadPage() {
   }, [photos, framed, credential]);
 
   return (
-    <main className="w-screen h-screen flex justify-center items-center gap-4 bg-red-900 bg-halftone">
+    <main className="w-screen h-dvh flex justify-center items-center gap-4 bg-red-900 bg-halftone">
       <div className="flex flex-col items-center gap-6">
         <img
           src={Logo}

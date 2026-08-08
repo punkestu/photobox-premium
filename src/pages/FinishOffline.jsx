@@ -73,7 +73,7 @@ export default function FinishOfflinePage() {
     }, 100);
   }, [optimizedframed]);
   return (
-    <main className="h-screen flex gap-4">
+    <main className="h-dvh flex gap-4">
       <aside className="p-8 flex flex-col gap-4 justify-center items-center grow">
         <img src={LogoBorderTypo} width={120} />
         <QR
@@ -96,7 +96,7 @@ export default function FinishOfflinePage() {
           </button>
         </div>
       </aside>
-      <aside className="h-screen flex flex-col items-center p-8 gap-4 pb-0 grow">
+      <aside className="h-dvh flex flex-col items-center p-8 gap-4 pb-0 grow">
         <div className="flex flex-col items-center justify-center -mb-7">
           <div className="w-76 h-5 bg-slate-50"></div>
           <div className="w-76 h-3 bg-slate-300"></div>
