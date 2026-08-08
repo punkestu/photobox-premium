@@ -91,6 +91,7 @@ export default function FramePage() {
         <img ref={displayRef} className="h-fit" />
       </div>
       <div className="flex gap-3 justify-center bg-slate-200 p-2 rounded-md">
+        <button className={`aspect-square text-5xl ${preset == null ? "bg-yellow-500" : "bg-white"} p-2 rounded-md`} onClick={() => setPreset(null)}>❌</button>
         {Object.keys(PHOTOBOX_PRESETS).map((presetkey) => (
           <button className={`aspect-square text-5xl ${preset == presetkey ? "bg-yellow-500" : "bg-white"} p-2 rounded-md`} onClick={() => setPreset(presetkey)}>{PHOTOBOX_PRESETS[presetkey].icon}</button>
         ))}

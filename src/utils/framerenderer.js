@@ -91,13 +91,8 @@ export async function render(displayRef, photos, frame, frametype, preset) {
         canvas.height
     );
 
-    const presetData = preset ? PHOTOBOX_PRESETS[preset] : PHOTOBOX_PRESETS["natural"];
-
-    const filtered = applyPhotoboxFilter(imageData, presetData ?? {
-        brightness: 20,
-        contrast: 1.35,
-        saturation: 1.2
-    });
+    const presetData = preset ? PHOTOBOX_PRESETS[preset] : null;
+    const filtered = preset ? applyPhotoboxFilter(imageData, presetData) : imageData;
 
     ctx.putImageData(filtered, 0, 0);
 

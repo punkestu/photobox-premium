@@ -23,7 +23,7 @@ export default function CameraPage() {
   const screenRef = useRef(null);
   const navigate = useNavigate();
 
-  const start = useCallback(() => {
+  const start = () => {
     if (photos.length >= frametype.framecount) {
       navigate("/frame");
       return;
@@ -31,7 +31,7 @@ export default function CameraPage() {
     if (state == "start" || !ready || !loaded || !frametype) return;
     else setState("start");
     setTimer(3);
-  }, [state, frametype, setState, setTimer, photos, loaded, ready, navigate]);
+  };
 
   const onTimer = useCallback(() => {
     if (timer > 0) return;
@@ -164,7 +164,9 @@ export default function CameraPage() {
         ) : (
           ""
         )}
-        {state != "start" && frametype && photos.length >= frametype.framecount ? (
+        {state != "start" &&
+        frametype &&
+        photos.length >= frametype.framecount ? (
           <div className="w-80">
             Tekan layar untuk selesaikan atau pilih foto untuk retake
           </div>
