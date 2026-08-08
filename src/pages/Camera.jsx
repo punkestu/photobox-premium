@@ -33,6 +33,14 @@ export default function CameraPage() {
     setTimer(3);
   };
 
+  const retake = (index) => {
+    setRetakeid(index);
+    setTimeout(() => {
+      setState("start");
+      setTimer(3);
+    }, 50);
+  };
+
   const onTimer = useCallback(() => {
     if (timer > 0) return;
     setTimeout(() => {
@@ -57,6 +65,7 @@ export default function CameraPage() {
     }, 100);
     setTimeout(() => {
       setFlashlight(false);
+      setRetakeid(null);
     }, 1000);
   }, [timer, setPhotos, retakeid]);
 
@@ -65,14 +74,6 @@ export default function CameraPage() {
       LocalBuffer.saveObject("frame_selected", "frame_object", frametype);
     }
   }, [frametype]);
-
-  useEffect(() => {
-    if (retakeid === null) return;
-    setTimeout(() => {
-      setState("start");
-      setTimer(3);
-    }, 50);
-  }, [retakeid]);
 
   useEffect(() => {
     if (!ready || photos.length > 0 || loaded) return;
@@ -238,7 +239,7 @@ export default function CameraPage() {
       <section className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2">
         {photos.map((photo, i) => (
           <button
-            onClick={() => setRetakeid(i)}
+            onClick={() => retake(i)}
             key={`preview_photo_${i}`}
             className="w-40 aspect-4/3 border-2 border-yellow-400 rounded-md bg-white cursor-pointer"
             style={{
